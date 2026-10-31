@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智驾新闻资讯 — 别克至境L7增程版 至境OS 2.1 OTA</title>
+<style>
+:root{
+  --bg:#0B0F15; --card:#141921; --border:#222A38;
+  --text:#E6EDF3; --text-dim:#8A96A6;
+  --main:#2D7FF9; --main-2:#5B9DFF;
+  --main-glow:rgba(45,127,249,.24);
+  --main-line:rgba(45,127,249,.42);
+  --gold:#F0B429; --gold-glow:rgba(240,180,41,.2);
+  --grad:linear-gradient(135deg,#5B9DFF 0%,#2D7FF9 58%,#1E63D6 120%);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.container{
+  background:
+    radial-gradient(1100px 560px at 10% -10%, rgba(91,157,255,.16), transparent 60%),
+    radial-gradient(900px 520px at 110% 2%, rgba(45,127,249,.14), transparent 55%),
+    radial-gradient(760px 760px at 50% 122%, rgba(240,180,41,.06), transparent 60%);
+}
+.wrap{max-width:820px; margin:0 auto; padding:0 22px 60px;}
+
+/* ===== 新闻标题式简化 Hero ===== */
+.hero{padding:60px 0 8px;}
+.kicker-row{display:flex; align-items:center; gap:14px; margin-bottom:30px;}
+.kicker{color:var(--gold); font-size:23px; font-weight:800; letter-spacing:3px; white-space:nowrap;}
+.kicker-row .line{flex:1; height:1px; background:linear-gradient(90deg,rgba(240,180,41,.55),rgba(240,180,41,0));}
+.kicker-row .meta{color:var(--text-dim); font-size:15px; font-weight:600; white-space:nowrap;}
+.headline{
+  font-size:44px; font-weight:900; line-height:1.26; letter-spacing:.5px;
+  background:linear-gradient(115deg,#FFFFFF 8%,#F5C860 55%,#F0B429 98%);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.headline .ver{color:var(--gold); -webkit-text-fill-color:var(--gold);}
+.version-note{margin-top:20px; font-size:15px; color:var(--text-dim);}
+.version-note b{color:var(--text-dim); font-weight:700;}
+
+/* ===== 重点高亮横幅 ===== */
+.banner{
+  margin:34px 0 44px;
+  background:linear-gradient(135deg,rgba(45,127,249,.18),rgba(240,180,41,.08));
+  border:1px solid var(--main-line); border-radius:22px; padding:30px 34px;
+  position:relative; overflow:hidden;
+}
+.banner::before{content:''; position:absolute; right:-50px; top:-50px; width:240px; height:240px; background:radial-gradient(circle,var(--gold-glow) 0%,transparent 70%); pointer-events:none;}
+.banner .tag{display:inline-flex; align-items:center; gap:9px; font-size:15px; font-weight:800; letter-spacing:1px; color:var(--gold); background:rgba(240,180,41,.12); border:1px solid rgba(240,180,41,.4); padding:5px 15px; border-radius:8px; margin-bottom:16px; position:relative; z-index:1;}
+.banner .tag .dot{width:8px; height:8px; border-radius:50%; background:var(--gold); box-shadow:0 0 10px var(--gold);}
+.banner .title{font-size:29px; font-weight:900; margin-bottom:12px; line-height:1.34; position:relative; z-index:1;}
+.banner .desc{font-size:17px; color:var(--text-dim); position:relative; z-index:1; line-height:1.72;}
+.banner .desc em{color:var(--gold); font-style:normal; font-weight:800;}
+.banner .desc b{color:var(--text); font-weight:700;}
+.banner .title em{color:var(--gold); font-style:normal;}
+
+/* ===== section ===== */
+.section-title{text-align:center; font-size:30px; font-weight:900; margin:52px 0 10px; letter-spacing:1px;}
+.section-title .accent{color:var(--main-2);}
+.sys-note{font-size:15px; color:var(--text-dim); background:rgba(255,255,255,.02); border:1px solid var(--border); border-left:3px solid var(--main); border-radius:8px; padding:14px 18px; margin:22px 0 24px; line-height:1.7;}
+.sys-note b{color:var(--text); font-weight:700;}
+.sys-note em{color:var(--gold); font-style:normal; font-weight:700;}
+
+/* ===== ota 卡 ===== */
+.ota-card{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:24px 26px; margin-bottom:18px; position:relative;}
+.ota-card.critical{border-color:rgba(240,180,41,.42); background:rgba(240,180,41,.05);}
+.ota-card .badge{display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:800; letter-spacing:.5px; padding:4px 12px; border-radius:7px; margin-bottom:14px;}
+.badge.new{color:#1a1400; background:linear-gradient(120deg,#F5C860,#E8960C);}
+.badge.up{color:#fff; background:linear-gradient(120deg,var(--main),var(--main-2));}
+.ota-card h4{font-size:21px; font-weight:800; line-height:1.35; margin-bottom:12px;}
+.ota-card h4 .hl{color:var(--main-2);}
+.ota-card.critical h4 .hl{color:var(--gold);}
+.ota-card p{font-size:16.5px; color:var(--text-dim); line-height:1.72;}
+.ota-card p b{color:var(--text); font-weight:700;}
+
+/* ===== 更多优化 ===== */
+.more{background:var(--card); border:1px dashed var(--border); border-radius:16px; padding:22px 24px; margin-bottom:18px;}
+.more h4{font-size:18px; font-weight:800; margin-bottom:14px; color:var(--main-2);}
+.more-list{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(2,1fr); gap:8px 18px;}
+.more-list li{position:relative; padding-left:20px; font-size:15.5px; color:var(--text-dim); line-height:1.55;}
+.more-list li::before{content:''; position:absolute; left:0; top:11px; width:8px; height:8px; border-radius:2px; background:var(--main);}
+
+/* ===== footer ===== */
+.footer{margin-top:50px; padding-top:26px; border-top:1px solid var(--border); color:var(--text-dim); font-size:14px; line-height:1.85;}
+.footer .disclaimer{margin-bottom:14px;}
+.footer .frow{display:flex; justify-content:flex-end; align-items:center; flex-wrap:wrap; gap:8px;}
+.footer .sign{font-weight:800; color:var(--main-2); white-space:nowrap;}
+
+@media(max-width:768px){
+  .headline{font-size:29px;}
+  .kicker{font-size:18px; letter-spacing:2px;}
+  .kicker-row .meta{font-size:13px;}
+  .banner .title{font-size:22px;}
+  .section-title{font-size:24px;}
+  .ota-card h4{font-size:19px;}
+  .more-list{grid-template-columns:1fr;}
+  .footer .frow{flex-direction:column; align-items:flex-end;}
+}
+
+#exportBtn{position:fixed; right:22px; bottom:22px; z-index:9999; background:linear-gradient(120deg,var(--main),var(--main-2)); color:#fff; border:none; border-radius:999px; padding:14px 24px; font-size:16px; font-weight:800; cursor:pointer; box-shadow:0 10px 30px rgba(45,127,249,.45);}
+#exportBtn:disabled{opacity:.6; cursor:wait;}
+@media print{#exportBtn{display:none;}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="wrap">
+
+  <!-- ===== Hero ===== -->
+  <div class="hero">
+    <div class="kicker-row">
+      <span class="kicker">智驾新闻资讯</span>
+      <span class="line"></span>
+      <span class="meta">2026年10月19日 · 内部速递</span>
+    </div>
+    <h1 class="headline">别克至境L7增程版<br>至境OS <span class="ver">2.1</span> 正式推送</h1>
+    <div class="version-note"><b>软件版本 别克至境OS 2.1 · 辅助驾驶 + 智能座舱 新增 6 项、优化 10 项</b></div>
+  </div>
+
+  <!-- ===== 重点高亮横幅 ===== -->
+  <div class="banner">
+    <span class="tag"><span class="dot"></span>本期重点 · 至境OS 2.1 OTA</span>
+    <div class="title">首次引入<em>语音融合手势控制</em>，新增<em>智绘泊车</em>、<em>窄路多把掉头</em></div>
+    <div class="desc">搭载<b>逍遥智行系统</b>的车型新增 AES 自动紧急转向、行车辅助自恢复等能力，AEB 识别范围与泊车适用场景同步拓宽；座舱侧支持语音配合手势隔空控车。</div>
+  </div>
+
+  <!-- ====== 01 智驾进阶 ====== -->
+  <div class="section-title">智驾进阶 · <span class="accent">新增与优化</span></div>
+  <div class="sys-note">以下功能依据别克官方至境OS 2.1 OTA 说明与官方资讯整理，其中 <b>AES 自动紧急转向、窄路多把掉头、智绘泊车、行车辅助自恢复</b> 为 <em>逍遥智行配置车型专属功能</em>。</div>
+
+  <div class="ota-card critical">
+    <span class="badge new">新增 +</span>
+    <h4>AES 自动紧急转向 <span class="hl">· 车速 60-130km/h 自动转向避让</span></h4>
+    <p>人驾状态下，车速 <b>60-130km/h</b> 行驶过程中遇到前方静止车辆且有碰撞风险，在存在安全空间的前提下，车辆自动转向避让，多一重主动安全兜底。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>窄路多把掉头 <span class="hl">· 算法自动规划进退路径</span></h4>
+    <p>城市窄道、乡村小路等空间受限场景无需犯难，算法自动规划<b>进退路径</b>，实现多把安全掉头，减少反复操作，降低剐蹭风险。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>智绘泊车 <span class="hl">· 自定义划定停车区域</span></h4>
+    <p>不受车位划线束缚，可在车机 <b>「随心车位」</b> 入口自主框定目标车位、拖拽调整位置、旋转图标调整角度，系统自动完成<b>转向、制动与换挡</b>。无划线停车场、露营野外场地、路边临时停靠等模糊车位与非标准空地均适用。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>行车辅助自恢复 <span class="hl">· 接管后自动恢复 NOP</span></h4>
+    <p>NOP 领航状态下，用户通过方向盘横向接管后系统自动降级为 <b>ACC</b>；当满足激活条件时自动恢复至 <b>NOP</b>，无需再次手动拨杆，降低人工操作频次。</p>
+  </div>
+
+  <div class="ota-card critical">
+    <span class="badge up">升级 ↑</span>
+    <h4>AEB 识别能力 <span class="hl">· 新增纸箱、三角牌等障碍物识别</span></h4>
+    <p>AEB 自动紧急制动识别能力升级，新增<b>纸箱、三角牌</b>等常见道路障碍物识别，进一步提升主动安全冗余。</p>
+  </div>
+
+  <!-- ====== 02 交互升级 ====== -->
+  <div class="section-title">交互升级 · <span class="accent">新增与优化</span></div>
+  <div class="sys-note">以下为<b>智能座舱</b>交互类升级，属非驾驶辅助项。</div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>语音融合手势控制 <span class="hl">· 隔空控车更简单</span></h4>
+    <p>语音与手势深度融合，可操控<b>主副驾座椅移动、加热及车窗升降</b>；告别繁琐按键，无需低头操作，驾乘交互更自在。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>中控分屏交互 <span class="hl">· 分屏占比自由调节</span></h4>
+    <p>支持滑动自由调整屏幕分屏占比，按个人使用习惯自定义屏幕布局；主副驾专屏专用、各取所需，多任务查看更顺手。</p>
+  </div>
+
+  <div class="more">
+    <h4>更多座舱优化</h4>
+    <ul class="more-list">
+      <li>手机 APP 交互体验优化</li>
+      <li>OTA 升级通知界面美化</li>
+      <li>一键备车远控关闭失败率降低</li>
+      <li>流媒体后视镜大窗默认居中显示</li>
+    </ul>
+  </div>
+
+  <!-- ===== footer ===== -->
+  <div class="footer">
+    <div class="disclaimer">信息依据别克「至境OS 2.1 OTA 升级」官方说明与官方资讯整理，含智能座舱等非驾驶辅助项；逍遥智行相关功能仅对应特定配置车型，具体以官方推送为准。</div>
+    <div class="frow">
+      <span class="sign">信息收集 BY FO 甚平</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<button id="exportBtn">导出长图</button>
+
+<!-- html-to-image -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"
+        onerror="window.__h2iFailed=true"></script>
+<script>
+/* ====== 可调参数(飞书安全区,勿往上调) ====== */
+const EXPORT_WIDTH  = 1080;
+const PIXEL_BUDGET  = 10_000_000;
+const MAX_SCALE     = 2;
+
+const btn = document.getElementById('exportBtn');
+btn.addEventListener('click', async ()=>{
+  if(window.__h2iFailed || typeof htmlToImage === 'undefined'){
+    alert('导出库未加载。请用真正的浏览器(Chrome/Edge)双击打开此 HTML 文件(不要在预览窗格里点),并保证能联网加载一次 CDN,再试。');
+    return;
+  }
+  btn.disabled = true; btn.textContent = '生成中…';
+  try{
+    const src = document.querySelector('.container');
+    const clone = src.cloneNode(true);
+    const holder = document.createElement('div');
+    holder.style.cssText = 'position:fixed;top:0;left:0;z-index:-1;width:'+EXPORT_WIDTH+'px;background:var(--bg);';
+    const inner = document.createElement('div');
+    inner.style.cssText = 'width:'+EXPORT_WIDTH+'px;';
+    const cw = clone.querySelector('.wrap');
+    if(cw) cw.style.maxWidth = (EXPORT_WIDTH - 130) + 'px';
+    inner.appendChild(clone);
+    holder.appendChild(inner);
+    document.body.appendChild(holder);
+
+    await document.fonts.ready;
+    await Promise.all([...holder.querySelectorAll('img')].map(img=>{
+      if(img.complete && img.naturalWidth) return Promise.resolve();
+      return img.decode ? img.decode().catch(()=>{}) :
+        new Promise(r=>{img.onload=img.onerror=r;});
+    }));
+    await new Promise(r=>setTimeout(r,120));
+
+    const H = holder.offsetHeight || inner.offsetHeight;
+    const ratio = Math.min(MAX_SCALE, Math.sqrt(PIXEL_BUDGET/(EXPORT_WIDTH*H)));
+    const opts = {pixelRatio:ratio, backgroundColor:'#0B0F15', width:EXPORT_WIDTH, height:H};
+
+    try{ await htmlToImage.toPng(inner, opts); }catch(e){}
+    const dataUrl = await Promise.race([
+      htmlToImage.toPng(inner, opts),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),20000))
+    ]);
+
+    document.body.removeChild(holder);
+    btn.disabled = false; btn.textContent = '导出长图';
+
+    const a = document.createElement('a');
+    a.href = dataUrl; a.download = 'buick-zhijing-l7-ota-20261019.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+
+    const kb = Math.round((dataUrl.length*3/4)/1024);
+    const mb = (kb/1024).toFixed(2);
+    const ov = document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.85);overflow:auto;padding:24px;text-align:center;';
+    ov.innerHTML =
+      '<div style="color:#fff;margin-bottom:12px;font-size:15px;">尺寸 '+EXPORT_WIDTH+'×'+H+' · 倍数 '+ratio.toFixed(2)+' · 约 '+mb+' MB</div>'+
+      '<a href="'+dataUrl+'" download="buick-zhijing-l7-ota-20261019.png" style="display:inline-block;background:#2D7FF9;color:#fff;padding:10px 22px;border-radius:999px;font-weight:800;text-decoration:none;margin-bottom:16px;">下载图片</a>'+
+      '<div style="color:#8A96A6;font-size:13px;margin-bottom:16px;">点击空白处关闭</div>'+
+      '<img src="'+dataUrl+'" style="max-width:420px;width:100%;border-radius:12px;border:1px solid #333;">';
+    ov.addEventListener('click',e=>{ if(e.target===ov) document.body.removeChild(ov); });
+    document.body.appendChild(ov);
+  }catch(err){
+    btn.disabled = false; btn.textContent = '导出长图';
+    alert('生成失败:'+err.message+'\n请用真正的浏览器双击打开(不要在预览窗格点),并联网加载一次 CDN。');
+  }
+});
+</script>
+</body>
+</html>

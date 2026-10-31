@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智驾新闻资讯 — 乐道椰子智能系统 3.3.0 OTA</title>
+<style>
+:root{
+  --bg:#0B0F15; --card:#141921; --border:#222A38;
+  --text:#E6EDF3; --text-dim:#8A96A6;
+  --main:#2D7FF9; --main-2:#5B9DFF;
+  --main-glow:rgba(45,127,249,.24);
+  --main-line:rgba(45,127,249,.42);
+  --gold:#F0B429; --gold-glow:rgba(240,180,41,.2);
+  --grad:linear-gradient(135deg,#5B9DFF 0%,#2D7FF9 58%,#1E63D6 120%);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.container{
+  background:
+    radial-gradient(1100px 560px at 10% -10%, rgba(91,157,255,.16), transparent 60%),
+    radial-gradient(900px 520px at 110% 2%, rgba(45,127,249,.14), transparent 55%),
+    radial-gradient(760px 760px at 50% 122%, rgba(240,180,41,.06), transparent 60%);
+}
+.wrap{max-width:820px; margin:0 auto; padding:0 22px 60px;}
+
+/* ===== 新闻标题式简化 Hero ===== */
+.hero{padding:60px 0 8px;}
+.kicker-row{display:flex; align-items:center; gap:14px; margin-bottom:30px;}
+.kicker{color:var(--gold); font-size:23px; font-weight:800; letter-spacing:3px; white-space:nowrap;}
+.kicker-row .line{flex:1; height:1px; background:linear-gradient(90deg,rgba(240,180,41,.55),rgba(240,180,41,0));}
+.kicker-row .meta{color:var(--text-dim); font-size:15px; font-weight:600; white-space:nowrap;}
+.headline{
+  font-size:44px; font-weight:900; line-height:1.26; letter-spacing:.5px;
+  background:linear-gradient(115deg,#FFFFFF 8%,#F5C860 55%,#F0B429 98%);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.headline .ver{color:var(--gold); -webkit-text-fill-color:var(--gold);}
+.version-note{margin-top:20px; font-size:15px; color:var(--text-dim);}
+.version-note b{color:var(--text-dim); font-weight:700;}
+
+/* ===== 重点高亮横幅 ===== */
+.banner{
+  margin:34px 0 44px;
+  background:linear-gradient(135deg,rgba(45,127,249,.18),rgba(240,180,41,.08));
+  border:1px solid var(--main-line); border-radius:22px; padding:30px 34px;
+  position:relative; overflow:hidden;
+}
+.banner::before{content:''; position:absolute; right:-50px; top:-50px; width:240px; height:240px; background:radial-gradient(circle,var(--gold-glow) 0%,transparent 70%); pointer-events:none;}
+.banner .tag{display:inline-flex; align-items:center; gap:9px; font-size:15px; font-weight:800; letter-spacing:1px; color:var(--gold); background:rgba(240,180,41,.12); border:1px solid rgba(240,180,41,.4); padding:5px 15px; border-radius:8px; margin-bottom:16px; position:relative; z-index:1;}
+.banner .tag .dot{width:8px; height:8px; border-radius:50%; background:var(--gold); box-shadow:0 0 10px var(--gold);}
+.banner .title{font-size:29px; font-weight:900; margin-bottom:12px; line-height:1.34; position:relative; z-index:1;}
+.banner .desc{font-size:17px; color:var(--text-dim); position:relative; z-index:1; line-height:1.72;}
+.banner .desc em{color:var(--gold); font-style:normal; font-weight:800;}
+.banner .desc b{color:var(--text); font-weight:700;}
+.banner .title em{color:var(--gold); font-style:normal;}
+
+/* ===== section ===== */
+.section-title{text-align:center; font-size:30px; font-weight:900; margin:52px 0 10px; letter-spacing:1px;}
+.section-title .accent{color:var(--main-2);}
+.sys-note{font-size:15px; color:var(--text-dim); background:rgba(255,255,255,.02); border:1px solid var(--border); border-left:3px solid var(--main); border-radius:8px; padding:14px 18px; margin:22px 0 24px; line-height:1.7;}
+.sys-note b{color:var(--text); font-weight:700;}
+.sys-note em{color:var(--gold); font-style:normal; font-weight:700;}
+
+/* ===== ota 卡 ===== */
+.ota-card{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:24px 26px; margin-bottom:18px; position:relative;}
+.ota-card.critical{border-color:rgba(240,180,41,.42); background:rgba(240,180,41,.05);}
+.ota-card .badge{display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:800; letter-spacing:.5px; padding:4px 12px; border-radius:7px; margin-bottom:14px;}
+.badge.new{color:#1a1400; background:linear-gradient(120deg,#F5C860,#E8960C);}
+.badge.up{color:#fff; background:linear-gradient(120deg,var(--main),var(--main-2));}
+.ota-card h4{font-size:21px; font-weight:800; line-height:1.35; margin-bottom:12px;}
+.ota-card h4 .hl{color:var(--main-2);}
+.ota-card.critical h4 .hl{color:var(--gold);}
+.ota-card p{font-size:16.5px; color:var(--text-dim); line-height:1.72;}
+.ota-card p b{color:var(--text); font-weight:700;}
+
+/* ===== 游戏瓷砖 ===== */
+.games{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:6px;}
+.games span{background:rgba(91,157,255,.08); border:1px solid rgba(91,157,255,.26); border-radius:10px; padding:12px 14px; font-size:16px; font-weight:700; color:var(--text); text-align:center;}
+
+/* ===== footer ===== */
+.footer{margin-top:50px; padding-top:26px; border-top:1px solid var(--border); color:var(--text-dim); font-size:14px; line-height:1.85;}
+.footer .disclaimer{margin-bottom:14px;}
+.footer .frow{display:flex; justify-content:flex-end; align-items:center; flex-wrap:wrap; gap:8px;}
+.footer .sign{font-weight:800; color:var(--main-2); white-space:nowrap;}
+
+@media(max-width:768px){
+  .headline{font-size:29px;}
+  .kicker{font-size:18px; letter-spacing:2px;}
+  .kicker-row .meta{font-size:13px;}
+  .banner .title{font-size:22px;}
+  .section-title{font-size:24px;}
+  .ota-card h4{font-size:19px;}
+  .games{grid-template-columns:1fr;}
+  .footer .frow{flex-direction:column; align-items:flex-end;}
+}
+
+#exportBtn{position:fixed; right:22px; bottom:22px; z-index:9999; background:linear-gradient(120deg,var(--main),var(--main-2)); color:#fff; border:none; border-radius:999px; padding:14px 24px; font-size:16px; font-weight:800; cursor:pointer; box-shadow:0 10px 30px rgba(45,127,249,.45);}
+#exportBtn:disabled{opacity:.6; cursor:wait;}
+@media print{#exportBtn{display:none;}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="wrap">
+
+  <!-- ===== Hero ===== -->
+  <div class="hero">
+    <div class="kicker-row">
+      <span class="kicker">智驾新闻资讯</span>
+      <span class="line"></span>
+      <span class="meta">2026年10月19日 · 内部速递</span>
+    </div>
+    <h1 class="headline">乐道椰子智能系统 <span class="ver">3.3.0</span> 正式推送<br>30 项功能更新，辅助驾驶与智能座舱进阶</h1>
+    <div class="version-note"><b>软件版本 乐道椰子智能系统 3.3.0 · 30 项功能更新 · 智能辅助驾驶 + 智能座舱</b></div>
+  </div>
+
+  <!-- ===== 重点高亮横幅 ===== -->
+  <div class="banner">
+    <span class="tag"><span class="dot"></span>本期重点 · 椰子智能系统 3.3.0 OTA</span>
+    <div class="title">30 项功能更新，<em>辅助驾驶</em>与<em>智能座舱</em>同步进阶</div>
+    <div class="desc">座舱新增 <b>K 歌悬浮球打分</b> 与 <b>歌神榜</b>，高清壁纸桌面、音乐软件沉浸播放器、氛围灯 <b>音乐/影院随动</b> 升级座舱氛围；地图导航新增 <b>停车场导航</b>，可在全国超 <em>3000</em> 座停车场实现 <b>车位级导航</b>；智能驾驶新增 <b>雨天防御性驾驶能力</b> 与 <b>智能辅助驾驶高光时刻</b>。</div>
+  </div>
+
+  <!-- ====== 01 智能驾驶 ====== -->
+  <div class="section-title">智能驾驶 · <span class="accent">新增与优化</span></div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>智能辅助驾驶高光时刻</h4>
+    <p>新增智能辅助驾驶高光时刻，记录并呈现辅助驾驶过程中的高光表现。</p>
+  </div>
+
+  <div class="ota-card critical">
+    <span class="badge new">新增 +</span>
+    <h4>新增雨天的防御性驾驶能力 <span class="hl">· 面向雨天场景</span></h4>
+    <p>面向雨天场景新增防御性驾驶能力，提升雨天行车安全性。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>提升部分路段的行驶效率</h4>
+    <p>优化部分路段的通行策略，行驶效率提升。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>缩短直线挪车功能的启动时间</h4>
+    <p>直线挪车功能启动时间缩短，操作更快捷。</p>
+  </div>
+
+  <!-- ====== 02 小乐 AI 家庭伙伴 ====== -->
+  <div class="section-title">小乐 AI 家庭伙伴 · <span class="accent">新增与优化</span></div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>麦当劳智慧点餐新增更多便捷功能</h4>
+    <p>麦当劳智慧点餐新增更多便捷功能。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>新增部分导航功能的语音控制</h4>
+    <p>新增部分导航功能的语音控制，小乐支持的语音控制功能更丰富。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>新增部分功能的问答覆盖范围</h4>
+    <p>新增部分功能的问答覆盖范围，小乐可问答的能力进一步扩大。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>优化降低连续对话过程中小乐误搭话情况</h4>
+    <p>降低连续对话过程中小乐的误搭话情况。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>优化小乐对用户指令的判停效果</h4>
+    <p>优化小乐对用户指令的判停效果。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>优化小乐闲聊体验</h4>
+    <p>优化小乐闲聊体验。</p>
+  </div>
+
+  <!-- ====== 03 城市绿洲 AI 智舱 ====== -->
+  <div class="section-title">城市绿洲 AI 智舱 · <span class="accent">新增与优化</span></div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>音乐软件 · 沉浸播放器</h4>
+    <p>音乐软件新增沉浸播放器，听觉与氛围体验升级。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>音乐软件 · K 歌及打分功能</h4>
+    <p>音乐软件新增 K 歌功能，并支持悬浮球打分。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>K 歌排行榜及分享</h4>
+    <p>新增歌神榜栏目，支持 K 歌排行榜与分享。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>游戏中心 · 四款高品质沉浸游戏</h4>
+    <div class="games">
+      <span>远方 Loner</span>
+      <span>萌宠拆拆乐</span>
+      <span>霓虹深渊</span>
+      <span>超级幻影猫 2</span>
+    </div>
+  </div>
+
+  <div class="ota-card critical">
+    <span class="badge new">新增 +</span>
+    <h4>停车场导航 <span class="hl">· 车位级导航</span></h4>
+    <p>地图导航新增停车场导航功能，可在全国超 <b>3000</b> 座停车场实现<b>车位级导航</b>。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>壁纸桌面</h4>
+    <p>新增高清壁纸桌面。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>氛围灯 · 音乐随动</h4>
+    <p>氛围灯新增音乐随动功能。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>氛围灯 · 影院随动</h4>
+    <p>氛围灯新增影院随动功能。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>座舱内脚位灯亮度调节</h4>
+    <p>新增座舱内脚位灯亮度调节功能。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>HUD · 「简洁」模式 <span class="hl">· 全系车型</span></h4>
+    <p>全系车型 HUD 新增「简洁」模式。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>HUD · 普通模式拆分 <span class="hl">· 全系车型</span></h4>
+    <p>全系车型 HUD 将普通模式拆分为「感知优先」模式 &amp;「导航优先」模式。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>后排乘员关怀</h4>
+    <p>新增后排乘员关怀功能。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>车机重启方式调整</h4>
+    <p>车机重启方式调整。</p>
+  </div>
+
+  <!-- ====== 04 座舱交互及影像 ====== -->
+  <div class="section-title">座舱交互及影像 · <span class="accent">新增与优化</span></div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>360 影像全屏模式</h4>
+    <p>新增 360 影像全屏模式。</p>
+  </div>
+
+  <div class="ota-card critical">
+    <span class="badge new">新增 +</span>
+    <h4>360 影像尾门防撞提醒 <span class="hl">· 倒车更安心</span></h4>
+    <p>新增 360 影像尾门防撞提醒，倒车场景更安心。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>行车记录仪画面增加当前整车版本号信息显示</h4>
+    <p>行车记录仪画面增加当前整车版本号信息显示。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>360 影像前后视野</h4>
+    <p>优化 360 影像前后视野。</p>
+  </div>
+
+  <!-- ===== footer ===== -->
+  <div class="footer">
+    <div class="disclaimer">信息依据乐道官方椰子智能系统 3.3.0 版本升级推送内容整理，覆盖智能辅助驾驶与智能座舱；具体功能与推送节奏以官方为准。</div>
+    <div class="frow">
+      <span class="sign">信息收集 BY FO 甚平</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<button id="exportBtn">导出长图</button>
+
+<!-- html-to-image -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"
+        onerror="window.__h2iFailed=true"></script>
+<script>
+/* ====== 可调参数(飞书安全区,勿往上调) ====== */
+const EXPORT_WIDTH  = 1080;
+const PIXEL_BUDGET  = 10_000_000;
+const MAX_SCALE     = 2;
+
+const btn = document.getElementById('exportBtn');
+btn.addEventListener('click', async ()=>{
+  if(window.__h2iFailed || typeof htmlToImage === 'undefined'){
+    alert('导出库未加载。请用真正的浏览器(Chrome/Edge)双击打开此 HTML 文件(不要在预览窗格里点),并保证能联网加载一次 CDN,再试。');
+    return;
+  }
+  btn.disabled = true; btn.textContent = '生成中…';
+  try{
+    const src = document.querySelector('.container');
+    const clone = src.cloneNode(true);
+    const holder = document.createElement('div');
+    holder.style.cssText = 'position:fixed;top:0;left:0;z-index:-1;width:'+EXPORT_WIDTH+'px;background:var(--bg);';
+    const inner = document.createElement('div');
+    inner.style.cssText = 'width:'+EXPORT_WIDTH+'px;';
+    const cw = clone.querySelector('.wrap');
+    if(cw) cw.style.maxWidth = (EXPORT_WIDTH - 130) + 'px';
+    inner.appendChild(clone);
+    holder.appendChild(inner);
+    document.body.appendChild(holder);
+
+    await document.fonts.ready;
+    await Promise.all([...holder.querySelectorAll('img')].map(img=>{
+      if(img.complete && img.naturalWidth) return Promise.resolve();
+      return img.decode ? img.decode().catch(()=>{}) :
+        new Promise(r=>{img.onload=img.onerror=r;});
+    }));
+    await new Promise(r=>setTimeout(r,120));
+    
+    const H = holder.offsetHeight || inner.offsetHeight;
+    const ratio = Math.min(MAX_SCALE, Math.sqrt(PIXEL_BUDGET/(EXPORT_WIDTH*H)));
+    const opts = {pixelRatio:ratio, backgroundColor:'#0B0F15', width:EXPORT_WIDTH, height:H};
+    
+    try{ await htmlToImage.toPng(inner, opts); }catch(e){}
+    const dataUrl = await Promise.race([
+      htmlToImage.toPng(inner, opts),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),20000))
+    ]);
+    
+    document.body.removeChild(holder);
+    btn.disabled = false; btn.textContent = '导出长图';
+    
+    const a = document.createElement('a');
+    a.href = dataUrl; a.download = 'ledao-yezi-330-ota-20261019.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    
+    const kb = Math.round((dataUrl.length*3/4)/1024);
+    const mb = (kb/1024).toFixed(2);
+    const ov = document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.85);overflow:auto;padding:24px;text-align:center;';
+    ov.innerHTML =
+      '<div style="color:#fff;margin-bottom:12px;font-size:15px;">尺寸 '+EXPORT_WIDTH+'×'+H+' · 倍数 '+ratio.toFixed(2)+' · 约 '+mb+' MB</div>'+
+      '<a href="'+dataUrl+'" download="ledao-yezi-330-ota-20261019.png" style="display:inline-block;background:#2D7FF9;color:#fff;padding:10px 22px;border-radius:999px;font-weight:800;text-decoration:none;margin-bottom:16px;">下载图片</a>'+
+      '<div style="color:#8A96A6;font-size:13px;margin-bottom:16px;">点击空白处关闭</div>'+
+      '<img src="'+dataUrl+'" style="max-width:420px;width:100%;border-radius:12px;border:1px solid #333;">';
+    ov.addEventListener('click',e=>{ if(e.target===ov) document.body.removeChild(ov); });
+    document.body.appendChild(ov);
+  }catch(err){
+    btn.disabled = false; btn.textContent = '导出长图';
+    alert('生成失败:'+err.message+'\n请用真正的浏览器双击打开(不要在预览窗格点),并联网加载一次 CDN。');
+  }
+});
+</script>
+</body>
+</html>

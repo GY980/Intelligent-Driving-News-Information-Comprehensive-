@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智驾新闻资讯 — 深蓝L06 DEEPAL OS 4.2.1 OTA</title>
+<style>
+:root{
+  --bg:#0B0F15; --card:#141921; --border:#222A38;
+  --text:#E6EDF3; --text-dim:#8A96A6;
+  --main:#2D7FF9; --main-2:#5B9DFF;
+  --main-glow:rgba(45,127,249,.24);
+  --main-line:rgba(45,127,249,.42);
+  --gold:#F0B429; --gold-glow:rgba(240,180,41,.2);
+  --grad:linear-gradient(135deg,#5B9DFF 0%,#2D7FF9 58%,#1E63D6 120%);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  font-size:18px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.container{
+  background:
+    radial-gradient(1100px 560px at 10% -10%, rgba(91,157,255,.16), transparent 60%),
+    radial-gradient(900px 520px at 110% 2%, rgba(45,127,249,.14), transparent 55%),
+    radial-gradient(760px 760px at 50% 122%, rgba(240,180,41,.06), transparent 60%);
+}
+.wrap{max-width:820px; margin:0 auto; padding:0 22px 60px;}
+
+/* ===== 新闻标题式简化 Hero ===== */
+.hero{padding:60px 0 8px;}
+.kicker-row{display:flex; align-items:center; gap:14px; margin-bottom:30px;}
+.kicker{color:var(--gold); font-size:23px; font-weight:800; letter-spacing:3px; white-space:nowrap;}
+.kicker-row .line{flex:1; height:1px; background:linear-gradient(90deg,rgba(240,180,41,.55),rgba(240,180,41,0));}
+.kicker-row .meta{color:var(--text-dim); font-size:15px; font-weight:600; white-space:nowrap;}
+.headline{
+  font-size:44px; font-weight:900; line-height:1.26; letter-spacing:.5px;
+  background:linear-gradient(115deg,#FFFFFF 8%,#F5C860 55%,#F0B429 98%);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.headline .ver{color:var(--gold); -webkit-text-fill-color:var(--gold);}
+.version-note{margin-top:20px; font-size:15px; color:var(--text-dim);}
+.version-note b{color:var(--text-dim); font-weight:700;}
+
+/* ===== 重点高亮横幅 ===== */
+.banner{
+  margin:34px 0 44px;
+  background:linear-gradient(135deg,rgba(45,127,249,.18),rgba(240,180,41,.08));
+  border:1px solid var(--main-line); border-radius:22px; padding:30px 34px;
+  position:relative; overflow:hidden;
+}
+.banner::before{content:''; position:absolute; right:-50px; top:-50px; width:240px; height:240px; background:radial-gradient(circle,var(--gold-glow) 0%,transparent 70%); pointer-events:none;}
+.banner .tag{display:inline-flex; align-items:center; gap:9px; font-size:15px; font-weight:800; letter-spacing:1px; color:var(--gold); background:rgba(240,180,41,.12); border:1px solid rgba(240,180,41,.4); padding:5px 15px; border-radius:8px; margin-bottom:16px; position:relative; z-index:1;}
+.banner .tag .dot{width:8px; height:8px; border-radius:50%; background:var(--gold); box-shadow:0 0 10px var(--gold);}
+.banner .title{font-size:29px; font-weight:900; margin-bottom:12px; line-height:1.34; position:relative; z-index:1;}
+.banner .desc{font-size:17px; color:var(--text-dim); position:relative; z-index:1; line-height:1.72;}
+.banner .desc em{color:var(--gold); font-style:normal; font-weight:800;}
+.banner .desc b{color:var(--text); font-weight:700;}
+.banner .title em{color:var(--gold); font-style:normal;}
+
+/* ===== section ===== */
+.section-title{text-align:center; font-size:30px; font-weight:900; margin:52px 0 10px; letter-spacing:1px;}
+.section-title .accent{color:var(--main-2);}
+.sys-note{font-size:15px; color:var(--text-dim); background:rgba(255,255,255,.02); border:1px solid var(--border); border-left:3px solid var(--main); border-radius:8px; padding:14px 18px; margin:22px 0 24px; line-height:1.7;}
+.sys-note b{color:var(--text); font-weight:700;}
+.sys-note em{color:var(--gold); font-style:normal; font-weight:700;}
+
+/* ===== ota 卡 ===== */
+.ota-card{background:var(--card); border:1px solid var(--border); border-radius:18px; padding:24px 26px; margin-bottom:18px; position:relative;}
+.ota-card.critical{border-color:rgba(240,180,41,.42); background:rgba(240,180,41,.05);}
+.ota-card .badge{display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:800; letter-spacing:.5px; padding:4px 12px; border-radius:7px; margin-bottom:14px;}
+.badge.new{color:#1a1400; background:linear-gradient(120deg,#F5C860,#E8960C);}
+.badge.up{color:#fff; background:linear-gradient(120deg,var(--main),var(--main-2));}
+.ota-card h4{font-size:21px; font-weight:800; line-height:1.35; margin-bottom:12px;}
+.ota-card h4 .hl{color:var(--main-2);}
+.ota-card.critical h4 .hl{color:var(--gold);}
+.ota-card p{font-size:16.5px; color:var(--text-dim); line-height:1.72;}
+.ota-card p b{color:var(--text); font-weight:700;}
+
+/* 泊车子项 */
+.psub{margin-top:16px; padding-left:14px; border-left:3px solid var(--main-line);}
+.psub .pk{font-size:16px; font-weight:800; color:var(--main-2); margin-bottom:3px;}
+.psub p{font-size:16px;}
+
+/* 要点列表 */
+.blist{list-style:none; margin:12px 0 0; padding:0;}
+.blist li{position:relative; padding-left:18px; font-size:16px; color:var(--text-dim); line-height:1.65; margin-top:9px;}
+.blist li::before{content:''; position:absolute; left:0; top:9px; width:7px; height:7px; border-radius:50%; background:var(--main);}
+.blist li b{color:var(--text); font-weight:700;}
+
+/* ===== footer ===== */
+.footer{margin-top:50px; padding-top:26px; border-top:1px solid var(--border); color:var(--text-dim); font-size:14px; line-height:1.85;}
+.footer .disclaimer{margin-bottom:14px;}
+.footer .frow{display:flex; justify-content:flex-end; align-items:center; flex-wrap:wrap; gap:8px;}
+.footer .sign{font-weight:800; color:var(--main-2); white-space:nowrap;}
+
+@media(max-width:768px){
+  .headline{font-size:29px;}
+  .kicker{font-size:18px; letter-spacing:2px;}
+  .kicker-row .meta{font-size:13px;}
+  .banner .title{font-size:22px;}
+  .section-title{font-size:24px;}
+  .ota-card h4{font-size:19px;}
+  .footer .frow{flex-direction:column; align-items:flex-end;}
+}
+
+#exportBtn{position:fixed; right:22px; bottom:22px; z-index:9999; background:linear-gradient(120deg,var(--main),var(--main-2)); color:#fff; border:none; border-radius:999px; padding:14px 24px; font-size:16px; font-weight:800; cursor:pointer; box-shadow:0 10px 30px rgba(45,127,249,.45);}
+#exportBtn:disabled{opacity:.6; cursor:wait;}
+@media print{#exportBtn{display:none;}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="wrap">
+
+  <!-- ===== Hero ===== -->
+  <div class="hero">
+    <div class="kicker-row">
+      <span class="kicker">智驾新闻资讯</span>
+      <span class="line"></span>
+      <span class="meta">2026年10月23日 · 内部速递</span>
+    </div>
+    <h1 class="headline">深蓝L06 开启新一轮 OTA<br>DEEPAL OS <span class="ver">4.2.1</span> 正式推送</h1>
+    <div class="version-note"><b>长安深蓝 · 软件版本 DEEPAL OS 4.2.1 · 五大板块 新增 10 项、优化 9 项</b></div>
+  </div>
+
+  <!-- ===== 重点高亮横幅 ===== -->
+  <div class="banner">
+    <span class="tag"><span class="dot"></span>本期重点 · DEEPAL OS 4.2.1</span>
+    <div class="title">一段式端到端算法引入<em>世界模型 + 强化学习</em>，座舱上线<em>AI 闲聊</em>与<em>「深小闻」</em></div>
+    <div class="desc">行车辅助预判感知升级，控制更稳定、操作更类人；泊车开放地面露天车位、新增橙色风险预警；导航、手机互联与车家互联同步升级。</div>
+  </div>
+
+  <!-- ====== 01 智能辅助驾驶 ====== -->
+  <div class="section-title">智能辅助驾驶 · <span class="accent">行车与泊车</span></div>
+
+  <div class="ota-card critical">
+    <span class="badge up">升级 ↑</span>
+    <h4>全新一代一段式端到端算法 <span class="hl">· 引入世界模型 + 强化学习</span></h4>
+    <p>引入<b>世界模型 + 强化学习</b>，预判感知能力升级，全方位提升整车驾驶辅助综合性能，操作更类人。通行效率提升 <b>30%</b>，反应速度优于人类平均水平 <b>30%</b>，复杂场景点刹、重刹频次比非一段式端到端算法减少 <b>90%</b>，窄车位泊车成功率提升 <b>50%</b>。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>红绿灯识别 <span class="hl">· 路口通行更平顺</span></h4>
+    <p>进一步优化红绿灯识别，<b>路口通行更平顺</b>；配合算法升级，变道、弯道、恶劣天气及复杂道路的控制能力更稳定。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>全场景智能泊车辅助 <span class="hl">· 场景更多元、提醒更克制</span></h4>
+    <div class="psub">
+      <div class="pk">遥控泊车辅助</div>
+      <p>开放<b>地面露天车位</b>适用场景，泊车场景更多元，出行更从容。</p>
+    </div>
+    <div class="psub">
+      <div class="pk">直入直出辅助</div>
+      <p>车辆与障碍物距离过近时，手机 App 显示<b>橙色风险预警</b>；同时<b>取消功能激活时的鸣笛提醒</b>，减少不必要打扰。</p>
+    </div>
+  </div>
+
+  <!-- ====== 02 智能座舱 ====== -->
+  <div class="section-title">智能座舱 · <span class="accent">交互与生态</span></div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>超级自定义 3D 实况桌面 <span class="hl">· 支持分屏</span></h4>
+    <p>3D 实况桌面可开启<b>分屏</b>：左边导航路线、右边影音娱乐，导航与娱乐同屏并行。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>AI 闲聊 <span class="hl">· 车机 AI 深度思考</span></h4>
+    <p>车机 AI 可深度思考处理复杂问题，用户能<b>手动切换「闲聊」与「深度思考」模型</b>，化身小助手实时解答各类疑问。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>「深小闻」新闻智能体助手 <span class="hl">· 全领域热点播报</span></h4>
+    <p>车载场景下聚合<b>全领域热点新闻播报</b>，支持<b>文字、语音、视频</b>多形式展示，并标注新闻来源。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>灯光魔典 / 灯光秀 <span class="hl">· 彩蛋箱</span></h4>
+    <p>用户可<b>自主设计灯光秀</b>，解锁个性化灯光效果，体验不一样的灯光玩法。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>车机生态软件与在线音乐 <span class="hl">· 应用更丰富</span></h4>
+    <p>新增<b>多款生态软件应用</b>，在线音乐体验同步优化，座舱娱乐内容更丰富。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>四图融合车道级导航 <span class="hl">· 视觉与场景细化</span></h4>
+    <ul class="blist">
+      <li>对<b>居家、公司点位</b>做专属特殊视觉渲染，依据不同城市匹配<b>四季差异化树木品类</b>与环境光影效果。</li>
+      <li>兼容<b>实时潮汐车道、收费站 ETC 及人工通道</b>的画面渲染。</li>
+      <li>导航设置内设有<b>节假日主题专区</b>，可直观展示生效主题名称与有效时段，搭载<b>马年专属车道级车标</b>，可长期使用。</li>
+      <li>车道车辆横切面可展示<b>蓝牌、绿牌</b>车牌，安全提示立牌外观与机动点位标识箭头完成优化。</li>
+    </ul>
+  </div>
+
+  <!-- ====== 03 互联生态 ====== -->
+  <div class="section-title">互联生态 · <span class="accent">手机与家</span></div>
+
+  <div class="ota-card critical">
+    <span class="badge new">新增 +</span>
+    <h4>手机车机互联拓展 <span class="hl">· HUAWEI HiCar / ICCOA Carlink / 荣耀车联</span></h4>
+    <p>适配范围拓展，新增支持 <b>HUAWEI HiCar、ICCOA Carlink、荣耀车联</b>，主流手机品牌应用上车，导航与影音<b>无缝投屏</b>。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>融合桌面 <span class="hl">· 手机应用上车机</span></h4>
+    <p>手机应用列表、服务卡片与车机<b>完美融合</b>，交互方式统一，带来无界互联的智能体验。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>「车控家」车家互联 <span class="hl">· 车内控家电</span></h4>
+    <p>支持绑定<b>海尔 / 美的</b>家居品牌账号，在车机与深蓝互联 + App 中<b>查看、控制家中智能家电</b>，打通出行与居家场景。</p>
+  </div>
+
+  <!-- ====== 04 智慧 App ====== -->
+  <div class="section-title">智慧 App · <span class="accent">手机端</span></div>
+  <div class="sys-note">以下两项需<b>深蓝汽车 App 1.10.2 及以上版本</b>。</div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>蓝牙诊断 <span class="hl">· 数字钥匙自检</span></h4>
+    <p>蓝牙钥匙连接失败时，可通过<b>数字钥匙诊断</b>功能全面检测，并提供设置引导与功能恢复方式。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>蓝牙感应解闭锁开关 <span class="hl">· 功能可自主开关</span></h4>
+    <p>用户可<b>自主选择感应功能是否开启</b>，按使用习惯决定蓝牙感应解闭锁的开启状态。</p>
+  </div>
+
+  <!-- ====== 05 细节体验 ====== -->
+  <div class="section-title">细节体验 · <span class="accent">用车打磨</span></div>
+
+  <div class="ota-card">
+    <span class="badge new">新增 +</span>
+    <h4>超级省电模式 <span class="hl">· 换取更多续航</span></h4>
+    <p>打开后可<b>关闭非驾驶必须功能</b>，获得更多续航时间。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>哨兵模式 <span class="hl">· 新增自动开启哨塔模式</span></h4>
+    <p>可选择<b>锁车即自动进入守护状态</b>，开启后根据不同风险等级自动触发不同警报；运行时<b>不再强制后视镜展开</b>，使用体验更省心。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>疲劳驾驶分心提醒 <span class="hl">· 检测逻辑优化</span></h4>
+    <p>优化疲劳驾驶、分心提醒的检测逻辑，提升用车体验。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>宠物模式 <span class="hl">· 自动禁用语音</span></h4>
+    <p>宠物模式开启后<b>自动禁用语音功能</b>，宠物独处车内更省心。</p>
+  </div>
+
+  <div class="ota-card">
+    <span class="badge up">升级 ↑</span>
+    <h4>灯光联动 <span class="hl">· 后位置灯与车尾徽标灯</span></h4>
+    <p>优化后位置灯与车尾徽标灯的联动逻辑，<b>车机花瓣绽放软开关联动后位置灯</b>，灯光启停逻辑更贴合使用习惯。</p>
+  </div>
+
+  <!-- ===== footer ===== -->
+  <div class="footer">
+    <div class="disclaimer">信息依据深蓝汽车 DEEPAL OS 4.2.1 官方 OTA 说明与官方资讯整理，含智能座舱、互联生态、手机 App 等非驾驶辅助项；具体推送节奏与功能适配以官方为准。</div>
+    <div class="frow">
+      <span class="sign">信息收集 BY FO 甚平</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<button id="exportBtn">导出长图</button>
+
+<!-- html-to-image -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"
+        onerror="window.__h2iFailed=true"></script>
+<script>
+/* ====== 可调参数(飞书安全区,勿往上调) ====== */
+const EXPORT_WIDTH  = 1080;
+const PIXEL_BUDGET  = 10_000_000;
+const MAX_SCALE     = 2;
+
+const btn = document.getElementById('exportBtn');
+btn.addEventListener('click', async ()=>{
+  if(window.__h2iFailed || typeof htmlToImage === 'undefined'){
+    alert('导出库未加载。请用真正的浏览器(Chrome/Edge)双击打开此 HTML 文件(不要在预览窗格里点),并保证能联网加载一次 CDN,再试。');
+    return;
+  }
+  btn.disabled = true; btn.textContent = '生成中…';
+  try{
+    const src = document.querySelector('.container');
+    const clone = src.cloneNode(true);
+    const holder = document.createElement('div');
+    holder.style.cssText = 'position:fixed;top:0;left:0;z-index:-1;width:'+EXPORT_WIDTH+'px;background:var(--bg);';
+    const inner = document.createElement('div');
+    inner.style.cssText = 'width:'+EXPORT_WIDTH+'px;';
+    const cw = clone.querySelector('.wrap');
+    if(cw) cw.style.maxWidth = (EXPORT_WIDTH - 130) + 'px';
+    inner.appendChild(clone);
+    holder.appendChild(inner);
+    document.body.appendChild(holder);
+
+    await document.fonts.ready;
+    await Promise.all([...holder.querySelectorAll('img')].map(img=>{
+      if(img.complete && img.naturalWidth) return Promise.resolve();
+      return img.decode ? img.decode().catch(()=>{}) :
+        new Promise(r=>{img.onload=img.onerror=r;});
+    }));
+    await new Promise(r=>setTimeout(r,120));
+
+    const H = holder.offsetHeight || inner.offsetHeight;
+    const ratio = Math.min(MAX_SCALE, Math.sqrt(PIXEL_BUDGET/(EXPORT_WIDTH*H)));
+    const opts = {pixelRatio:ratio, backgroundColor:'#0B0F15', width:EXPORT_WIDTH, height:H};
+
+    try{ await htmlToImage.toPng(inner, opts); }catch(e){}
+    const dataUrl = await Promise.race([
+      htmlToImage.toPng(inner, opts),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),20000))
+    ]);
+
+    document.body.removeChild(holder);
+    btn.disabled = false; btn.textContent = '导出长图';
+
+    const a = document.createElement('a');
+    a.href = dataUrl; a.download = 'deepal-l06-ota-421-20261023.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+
+    const kb = Math.round((dataUrl.length*3/4)/1024);
+    const mb = (kb/1024).toFixed(2);
+    const ov = document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.85);overflow:auto;padding:24px;text-align:center;';
+    ov.innerHTML =
+      '<div style="color:#fff;margin-bottom:12px;font-size:15px;">尺寸 '+EXPORT_WIDTH+'×'+H+' · 倍数 '+ratio.toFixed(2)+' · 约 '+mb+' MB</div>'+
+      '<a href="'+dataUrl+'" download="deepal-l06-ota-421-20261023.png" style="display:inline-block;background:#2D7FF9;color:#fff;padding:10px 22px;border-radius:999px;font-weight:800;text-decoration:none;margin-bottom:16px;">下载图片</a>'+
+      '<div style="color:#8A96A6;font-size:13px;margin-bottom:16px;">点击空白处关闭</div>'+
+      '<img src="'+dataUrl+'" style="max-width:420px;width:100%;border-radius:12px;border:1px solid #333;">';
+    ov.addEventListener('click',e=>{ if(e.target===ov) document.body.removeChild(ov); });
+    document.body.appendChild(ov);
+  }catch(err){
+    btn.disabled = false; btn.textContent = '导出长图';
+    alert('生成失败:'+err.message+'\n请用真正的浏览器双击打开(不要在预览窗格点),并联网加载一次 CDN。');
+  }
+});
+</script>
+</body>
+</html>
