@@ -1,198 +1,272 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>纯视觉智驾方案功能清单与性能指标调研报告</title>
+<title>纯视觉智驾方案功能清单与性能指标调研报告｜2026.09</title>
 <style>
-@font-face { font-family: 'InstrumentSans'; src: url('./_shared/fonts/InstrumentSans-Regular.ttf') format('truetype'); font-weight: 400; }
-@font-face { font-family: 'InstrumentSans'; src: url('./_shared/fonts/InstrumentSans-Bold.ttf') format('truetype'); font-weight: 700; }
+:root{
+  --ink:#162033;
+  --ink-2:#344054;
+  --muted:#667085;
+  --subtle:#98A2B3;
+  --bg:#F7F8FA;
+  --surface:#FFFFFF;
+  --surface-2:#F2F4F7;
+  --border:#E4E7EC;
+  --navy:#0B1220;
+  --blue:#2563EB;
+  --blue-2:#EFF6FF;
+  --green:#087443;
+  --green-bg:#ECFDF3;
+  --amber:#B54708;
+  --amber-bg:#FFFAEB;
+  --red:#B42318;
+  --red-bg:#FEF3F2;
+  --shadow:0 1px 2px rgba(16,24,40,.04),0 8px 24px rgba(16,24,40,.05);
+  --radius:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+  background:var(--bg);color:var(--ink);font-size:14px;line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit}
+.container{max-width:1240px;margin:0 auto;padding:0 28px}
 
-:root {
-  color-scheme: light;
-  --ink: #1e1b2e;
-  --bg: #f0f1f6;
-  --card: #ffffff;
-  --border: #e4e7ee;
-  --muted: #6b7280;
-  --shadow: 0 4px 16px rgba(30,27,46,0.07), 0 1px 3px rgba(30,27,46,0.04);
-  --tesla: #c41e3a;
-  --xpeng: #4f46e5;
-  --zhuoyu: #d97706;
-  --byd: #1e40af;
-  --xiaomi: #ea580c;
-  --accent: #4f46e5;
-  --amber: #d97706;
+/* Cover */
+header{
+  position:relative;overflow:hidden;background:var(--surface);
+  border-bottom:1px solid var(--border);padding:68px 0 58px;
 }
-* { margin:0; padding:0; box-sizing:border-box; }
-body {
-  font-family: 'InstrumentSans', -apple-system, "PingFang SC", "Noto Sans SC", "Segoe UI", sans-serif;
-  background: var(--bg);
-  color: var(--ink);
-  line-height: 1.7;
-  font-size: 15px;
-  -webkit-font-smoothing: antialiased;
+header:before{
+  content:"";position:absolute;right:-120px;top:-180px;width:520px;height:520px;border-radius:50%;
+  background:radial-gradient(circle,rgba(37,99,235,.10) 0%,rgba(37,99,235,.03) 42%,transparent 70%);
 }
-.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-
-/* Header */
-header {
-  background:
-    radial-gradient(circle at 88% 20%, rgba(217,119,6,0.08) 0%, transparent 36%),
-    radial-gradient(circle at 15% 15%, rgba(79,70,229,0.10) 0%, transparent 34%),
-    linear-gradient(135deg, #eef2ff 0%, #e0e7ff 50%, #ddd6fe 100%);
-  color: var(--ink);
-  padding: 56px 0 48px;
-  position: relative;
-  overflow: hidden;
+header:after{
+  content:"";position:absolute;right:120px;bottom:-260px;width:620px;height:320px;
+  background:linear-gradient(90deg,transparent,rgba(15,118,110,.035),transparent);
+  transform:rotate(-12deg);
 }
-header::after {
-  content: '';
-  position: absolute;
-  top: -40%; right: -10%;
-  width: 500px; height: 500px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(217,119,6,0.06) 0%, transparent 68%);
+.header-inner{position:relative;z-index:1}
+header .tag{
+  display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.08em;
+  color:var(--blue);background:var(--blue-2);border:1px solid #DBEAFE;border-radius:999px;
+  padding:5px 11px;margin-bottom:18px;
 }
-header .tag { display: inline-block; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(79,70,229,0.12); color: #4338ca; padding: 4px 12px; border-radius: 4px; margin-bottom: 12px; }
-header h1 { font-size: 36px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px; line-height: 1.25; color: #1e1b4b; }
-header .subtitle { font-size: 15px; color: #5b5694; max-width: 720px; }
-header .meta { margin-top: 20px; font-size: 13px; color: #6b7280; display: flex; flex-wrap: wrap; gap: 1.5rem; }
-
-/* Nav bar */
-.nav-bar {
-  background: var(--card);
-  border-bottom: 1px solid var(--border);
-  position: sticky; top: 0; z-index: 100;
-  box-shadow: 0 6px 18px rgba(24,33,47,0.06), 0 1px 2px rgba(24,33,47,0.04);
+header .tag:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue)}
+header h1{
+  max-width:900px;font-size:40px;line-height:1.18;letter-spacing:-.7px;font-weight:800;
+  color:var(--navy);margin-bottom:14px;
 }
-.nav-bar .container { display: flex; gap: 0; overflow-x: auto; }
-.nav-tab {
-  padding: 15px 22px;
-  font-size: 14.5px;
-  font-weight: 700;
-  color: #405064;
-  cursor: pointer;
-  border-bottom: 3px solid transparent;
-  white-space: nowrap;
-  transition: all 0.2s;
-  text-decoration: none;
-}
-.nav-tab:hover { color: var(--ink); background: #f5f4fa; }
-.nav-tab.active {
-  color: var(--accent);
-  background: linear-gradient(180deg, #faf9ff 0%, #f0eaff 100%);
-  border-bottom-color: var(--accent);
+header .subtitle{font-size:16px;color:var(--ink-2);max-width:760px}
+header .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+header .meta span{
+  padding:6px 10px;border:1px solid var(--border);background:#FAFBFC;border-radius:6px;
+  font-size:12px;color:var(--muted);
 }
 
-/* Sections */
-section { padding: 40px 0; }
-section + section { border-top: 1px solid var(--border); }
-h2 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
-h2 .brand-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; background: var(--accent); }
-.section-desc { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
-h3 { font-size: 18px; font-weight: 600; margin: 28px 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-h4 { font-size: 15px; font-weight: 600; margin: 20px 0 10px; color: var(--ink); }
-
-/* Overview text */
-.overview-text { font-size: 14px; line-height: 1.9; margin-bottom: 28px; color: #374151; }
-.overview-text strong { color: var(--ink); font-weight: 700; }
-.overview-text .hl { background: #fef3c7; padding: 1px 5px; border-radius: 3px; font-weight: 700; color: #92400e; }
-
-/* Manufacturer cards - 5 in a row */
-.mfr-cards {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 14px;
-  margin: 0 0 32px;
+/* Navigation */
+.nav-bar{
+  position:sticky;top:0;z-index:100;background:rgba(255,255,255,.94);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--border);
 }
-.mfr-card {
-  background: var(--card);
-  border-radius: 10px;
-  padding: 18px 16px;
-  box-shadow: var(--shadow);
-  text-align: center;
-  transition: transform 0.2s, box-shadow 0.2s;
+.nav-bar .container{display:flex;gap:4px;overflow-x:auto}
+.nav-tab{
+  padding:14px 18px;font-size:13.5px;font-weight:600;color:var(--muted);
+  text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap;transition:.18s;
 }
-.mfr-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(30,27,46,0.10); }
-.mfr-card .card-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-bottom: 8px; }
-.mfr-card .card-name { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; line-height: 1.3; }
-.mfr-card .card-desc { font-size: 11.5px; color: var(--muted); line-height: 1.55; margin-bottom: 10px; }
-.mfr-card .card-tags { display: flex; justify-content: center; gap: 4px; flex-wrap: wrap; }
-.mfr-card .card-tag { font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 600; border: 1px solid var(--border); }
-.tag-blue { background: #eef2ff; color: #4338ca; border-color: #c7d2fe; }
-.tag-amber { background: #fffbeb; color: #92400e; border-color: #fde68a; }
-.tag-grey { background: #f3f4f6; color: #4b5563; border-color: #e5e7eb; }
-.tag-red { background: #fef2f2; color: #991b1b; border-color: #fecaca; }
+.nav-tab:hover{color:var(--ink);background:#F8FAFC}
+.nav-tab.active{color:var(--blue);border-bottom-color:var(--blue);background:#F8FAFC}
+
+/* Layout */
+section{padding:48px 0}
+section+section{border-top:1px solid var(--border)}
+h2{
+  display:flex;align-items:center;gap:10px;font-size:24px;line-height:1.3;font-weight:800;
+  letter-spacing:-.25px;color:var(--navy);margin-bottom:8px;
+}
+h2:before{content:"";width:4px;height:22px;border-radius:3px;background:var(--blue)}
+.section-desc{color:var(--muted);font-size:13px;margin-bottom:24px}
+h3{
+  font-size:17px;font-weight:750;color:var(--navy);margin:34px 0 14px;padding:0 0 10px;
+  border-bottom:1px solid var(--border);
+}
+h4{font-size:15px;font-weight:700;margin:20px 0 10px;color:var(--ink)}
+
+/* Executive summary */
+.exec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:26px 0 20px}
+.exec-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px 18px 16px;box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.exec-card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--blue)}
+.exec-kicker{font-size:11px;font-weight:700;color:var(--subtle);letter-spacing:.04em;text-transform:uppercase;margin-bottom:7px}
+.exec-value{font-size:22px;font-weight:800;color:var(--navy);line-height:1.25;margin-bottom:7px}
+.exec-text{font-size:12.5px;color:var(--muted);line-height:1.65}
+.methodology{
+  background:#F8FAFC;border:1px solid var(--border);border-radius:10px;padding:14px 16px;
+  color:var(--ink-2);font-size:12.5px;line-height:1.75;
+}
+.methodology strong{color:var(--navy)}
+
+/* Overview */
+.overview-text{font-size:14px;line-height:1.9;margin-bottom:24px;color:var(--ink-2)}
+.overview-text strong{color:var(--navy)}
+.overview-text .hl{
+  background:#EEF4FF;color:#1D4ED8;padding:1px 5px;border-radius:4px;font-weight:700;
+}
+.mfr-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:0 0 24px}
+.mfr-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px 16px 16px;box-shadow:var(--shadow);text-align:left;transition:.18s;
+}
+.mfr-card:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(16,24,40,.08)}
+.mfr-card .card-name{font-size:14px;font-weight:800;color:var(--navy);margin-bottom:7px;line-height:1.35}
+.mfr-card .card-desc{font-size:11.5px;color:var(--muted);line-height:1.6;min-height:55px;margin-bottom:11px}
+.mfr-card .card-tags{display:flex;gap:5px;flex-wrap:wrap}
+.mfr-card .card-tag{font-size:10px;padding:3px 7px;border-radius:999px;font-weight:650;border:1px solid var(--border)}
+.tag-blue{background:var(--blue-2);color:#1D4ED8;border-color:#BFDBFE}
+.tag-amber{background:var(--amber-bg);color:var(--amber);border-color:#FEDF89}
+.tag-grey{background:#F2F4F7;color:#475467;border-color:#EAECF0}
+.tag-red{background:var(--red-bg);color:var(--red);border-color:#FECDCA}
 
 /* Tables */
-.table-wrap { overflow-x: auto; overflow-y: auto; max-height: 650px; margin: 16px 0 28px; border-radius: 10px; box-shadow: var(--shadow); }
-table { width: 100%; border-collapse: collapse; background: var(--card); font-size: 13px; min-width: 800px; }
-thead { position: sticky; top: 0; z-index: 1; }
-th { background: #4f46e5; color: #f8fafc; padding: 10px 12px; text-align: center; font-weight: 700; font-size: 12px; letter-spacing: 0.3px; white-space: nowrap; }
-th:first-child { text-align: left; min-width: 120px; }
-td { padding: 8px 12px; border-bottom: 1px solid var(--border); text-align: center; vertical-align: middle; }
-td:first-child { text-align: left; font-weight: 600; color: var(--ink); white-space: nowrap; background: #f9fafb; }
-tbody tr:hover td { background: #f9fafb; }
-tbody tr:hover td:first-child { background: #f3f4f6; }
+.table-wrap{
+  overflow:auto;max-height:650px;margin:14px 0 26px;background:var(--surface);
+  border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);
+}
+table{width:100%;border-collapse:separate;border-spacing:0;background:var(--surface);font-size:12.5px;min-width:820px}
+thead{position:sticky;top:0;z-index:2}
+th{
+  background:var(--navy);color:#F8FAFC;padding:11px 12px;text-align:center;font-weight:700;
+  font-size:11.5px;letter-spacing:.15px;white-space:nowrap;border-bottom:1px solid #1D2939;
+}
+th:first-child{text-align:left;min-width:130px}
+td{
+  padding:9px 12px;border-bottom:1px solid #EEF0F3;text-align:center;vertical-align:middle;
+  color:var(--ink-2);background:#fff;
+}
+tbody tr:nth-child(even) td{background:#FCFCFD}
+tbody tr:hover td{background:#F8FAFC}
+td:first-child{
+  text-align:left;font-weight:650;color:var(--navy);white-space:nowrap;background:#FAFBFC;
+  position:relative;
+}
+tbody tr:last-child td{border-bottom:none}
 
-/* Status icons */
-.yes { color: #166534; font-weight: 700; }
-.no { color: #991b1b; font-weight: 700; }
-.partial { color: #92400e; font-weight: 700; }
-.na { color: #9ca3af; }
+/* Status */
+.yes,.no,.partial,.na{font-weight:750}
+.yes{color:var(--green)}
+.no{color:var(--red)}
+.partial{color:var(--amber)}
+.na{color:#98A2B3}
 
 /* Legend */
-.legend { display: flex; gap: 1.2rem; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin: 12px 0 8px; }
-.legend span { display: flex; align-items: center; gap: 0.3rem; }
-
-/* Callout */
-.callout {
-  background: linear-gradient(135deg, #eef2ff 0%, #fffbeb 100%);
-  border-left: 3px solid var(--accent);
-  border-radius: 0 8px 8px 0;
-  padding: 14px 20px;
-  margin: 16px 0 24px;
-  font-size: 13.5px;
-  color: #374151;
-  line-height: 1.8;
+.legend{
+  display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--muted);
+  margin:10px 0 6px;padding:10px 12px;background:#FAFBFC;border:1px solid var(--border);border-radius:8px;
 }
-.callout strong { color: #4338ca; }
+.legend span{display:flex;align-items:center;gap:5px}
 
-/* Performance table specific */
-.perf-table td.row-label { text-align: left; font-weight: 700; color: var(--ink); white-space: nowrap; background: #f9fafb; }
-.perf-table td.row-data { text-align: left; color: #374151; }
-.perf-table td.mfr-cell { text-align: center; font-weight: 700; vertical-align: middle; }
-
-/* Chart */
-.chart-figure { margin: 24px 0; }
-.chart-figure figcaption { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 12px; }
-
-/* Footer */
-footer { padding: 32px 0; border-top: 1px solid var(--border); }
-footer .sources h2 { font-size: 20px; }
-footer .sources ol { padding-left: 1.2rem; font-size: 13px; color: var(--muted); }
-footer .sources li { margin-bottom: 6px; overflow-wrap: break-word; word-break: break-all; }
-footer .sources .src-title { color: var(--ink); word-break: normal; }
-footer .sources .src-url { display: block; margin-top: 2px; font-size: 12px; color: var(--accent); word-break: break-all; }
-sup a { color: var(--accent); text-decoration: none; font-size: 0.72em; font-weight: 600; }
-sup a:hover { text-decoration: underline; }
-
-@media (max-width: 1024px) {
-  .mfr-cards { grid-template-columns: repeat(3, 1fr); }
+/* Callouts */
+.callout{
+  background:#F8FAFC;border:1px solid var(--border);border-left:3px solid var(--blue);
+  border-radius:8px;padding:13px 16px;margin:14px 0 22px;font-size:12.5px;color:var(--ink-2);line-height:1.8;
 }
-@media (max-width: 768px) {
-  .mfr-cards { grid-template-columns: 1fr; }
-  header h1 { font-size: 26px; }
-  th, td { font-size: 11px; padding: 6px 6px; }
-  th:first-child { min-width: 80px; }
+.callout strong{color:var(--navy)}
+
+/* Performance */
+.perf-table td.row-label{text-align:left;font-weight:700;color:var(--navy);white-space:nowrap;background:#FAFBFC}
+.perf-table td.row-data{text-align:left;color:var(--ink-2)}
+.perf-table td.mfr-cell{text-align:center;font-weight:800;vertical-align:middle;background:#F8FAFC}
+.chart-figure{
+  margin:22px 0 8px;background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:18px 18px 8px;box-shadow:var(--shadow);
+}
+.chart-figure figcaption{font-size:13px;font-weight:750;color:var(--navy);margin-bottom:8px}
+
+/* Sources */
+footer{padding:8px 0 32px}
+footer .sources ol{padding-left:1.25rem;font-size:12px;color:var(--muted)}
+footer .sources li{margin-bottom:7px;overflow-wrap:break-word}
+footer .sources .src-title{color:var(--ink-2);font-weight:550}
+footer .sources .src-url{display:block;margin-top:2px;font-size:10.5px;color:var(--blue);word-break:break-all;text-decoration:none}
+footer .sources .src-url:hover{text-decoration:underline}
+sup a{color:var(--blue);text-decoration:none;font-size:.72em;font-weight:700}
+sup a:hover{text-decoration:underline}
+
+/* Research scope & data notes */
+.research-scope{
+  display:flex;align-items:center;gap:10px;
+  margin-top:14px;padding:10px 14px;
+  border-top:1px solid rgba(255,255,255,.16);
+  color:rgba(255,255,255,.76);font-size:12px;line-height:1.6;
+}
+.scope-label{
+  flex:0 0 auto;padding:3px 8px;border:1px solid rgba(255,255,255,.22);
+  border-radius:4px;color:#fff;font-size:11px;font-weight:700;letter-spacing:.04em;
+}
+.data-note{
+  margin:-4px 0 20px;border:1px solid var(--border);border-radius:8px;
+  background:#F8FAFC;overflow:hidden;
+}
+.data-note-item{
+  display:grid;grid-template-columns:74px 1fr;gap:14px;align-items:start;
+  padding:11px 14px;font-size:12px;line-height:1.65;color:var(--muted);
+}
+.data-note-item + .data-note-item{border-top:1px solid var(--border);}
+.data-note-label{
+  color:var(--text);font-weight:700;position:relative;padding-left:10px;
+}
+.data-note-label::before{
+  content:"";position:absolute;left:0;top:.55em;width:3px;height:3px;
+  border-radius:50%;background:var(--accent);
+}
+@media (max-width:768px){
+  .research-scope{align-items:flex-start;flex-direction:column;gap:6px}
+  .data-note-item{grid-template-columns:1fr;gap:4px}
+}
+
+/* Small helper */
+.scope-note{font-size:11px;color:var(--muted);background:#F9FAFB;border:1px dashed #D0D5DD;padding:8px 10px;border-radius:7px;margin:-10px 0 18px}
+.flag{
+  display:inline-flex;align-items:center;padding:2px 7px;border-radius:999px;
+  font-size:10px;font-weight:700;background:var(--amber-bg);color:var(--amber);border:1px solid #FEDF89;
+}
+
+/* Print */
+@media print{
+  .nav-bar{display:none}
+  header{padding:36px 0}
+  section{padding:28px 0}
+  .table-wrap{max-height:none;overflow:visible;box-shadow:none}
+  .mfr-card,.exec-card,.chart-figure{box-shadow:none}
+}
+
+/* Responsive */
+@media (max-width:1024px){
+  .exec-grid{grid-template-columns:repeat(2,1fr)}
+  .mfr-cards{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:768px){
+  .container{padding:0 16px}
+  header{padding:48px 0 40px}
+  header h1{font-size:29px}
+  header .subtitle{font-size:14px}
+  section{padding:36px 0}
+  .exec-grid,.mfr-cards{grid-template-columns:1fr}
+  .mfr-card .card-desc{min-height:auto}
+  th,td{font-size:11px;padding:7px 8px}
 }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="container">
+  <div class="container header-inner">
     <span class="tag">行业调研报告</span>
     <h1>纯视觉智驾方案功能清单与性能指标调研</h1>
     <p class="subtitle">5家厂商功能对比 + 硬件配置 + 性能指标</p>
@@ -200,6 +274,10 @@ sup a:hover { text-decoration: underline; }
       <span>报告日期：2026年9月10日</span>
       <span>覆盖厂商：5家</span>
       <span>功能项：40+</span>
+    </div>
+    <div class="research-scope">
+      <span class="scope-label">研究口径</span>
+      <span>以公开资料为主，优先采用厂商官网及官方手册，辅以行业媒体与第三方实测。</span>
     </div>
   </div>
 </header>
@@ -222,14 +300,14 @@ sup a:hover { text-decoration: underline; }
 <p class="section-desc">本报告覆盖5家纯视觉智驾方案厂商。</p>
 
 <div class="overview-text">
-<p><strong>特斯拉FSD V14</strong>和<strong>小鹏VLA 2.0</strong>是<span class="hl">整车厂中唯二实现完整D2D（车位到车位）量产落地</span>的厂商；<strong>卓驭科技</strong>以Tier1身份在高配10V方案中支持D2D，<span class="hl">合作覆盖面最广（9家车企50+车型）</span>；<strong>比亚迪天神之眼C</strong>纯视觉方案覆盖7-20万级车型，<span class="hl">智驾搭载量突破400万辆</span>（中国第一）；<strong>小米Pilot Pro</strong>为2025款SU7标准版纯视觉方案，2026款SU7已全系切换激光雷达，Pilot Pro已退出。</p>
+<p><strong>特斯拉FSD V14</strong>和<strong>小鹏VLA 2.0</strong>是<span class="hl">整车厂中唯二实现完整D2D（车位到车位）量产落地</span>的厂商；<strong>卓驭科技</strong>以Tier1身份在高配10V方案中支持D2D，<span class="hl">已量产50+车型，定点合作车型130+</span>；<strong>比亚迪天神之眼C</strong>面向普惠型车型，<span class="hl">截至2026年5月官方披露辅助驾驶车型保有量超315万辆</span>；<strong>小米Pilot Pro</strong>为2025款SU7标准版纯视觉方案，新一代SU7已全系标配激光雷达，Pilot Pro属于上一代SU7标准版历史方案。</p>
 </div>
 
 <!-- 厂商小卡片 -->
 <div class="mfr-cards">
   <div class="mfr-card">
     <div class="card-name">特斯拉 FSD V14</div>
-    <div class="card-desc">端到端神经网络+VLA框架，海外多国落地D2D</div>
+    <div class="card-desc">端到端基础模型持续迭代，覆盖城市道路与泊车等场景</div>
     <div class="card-tags">
       <span class="card-tag tag-blue">D2D已落地</span>
       <span class="card-tag tag-blue">HW4.0</span>
@@ -237,7 +315,7 @@ sup a:hover { text-decoration: underline; }
   </div>
   <div class="mfr-card">
     <div class="card-name">小鹏 VLA 2.0</div>
-    <div class="card-desc">国内首批全系纯视觉，唯二D2D量产落地</div>
+    <div class="card-desc">第二代VLA持续推进全场景纯视觉能力</div>
     <div class="card-tags">
       <span class="card-tag tag-blue">D2D已落地</span>
       <span class="card-tag tag-blue">图灵芯片</span>
@@ -254,7 +332,7 @@ sup a:hover { text-decoration: underline; }
   </div>
   <div class="mfr-card">
     <div class="card-name">比亚迪 天神C</div>
-    <div class="card-desc">普惠版纯视觉，5R12V12U，搭载量400万辆</div>
+    <div class="card-desc">普惠型纯视觉方案，5R12V12U；历史公开资料覆盖多款车型</div>
     <div class="card-tags">
       <span class="card-tag tag-blue">已量产</span>
       <span class="card-tag tag-amber">7-20万</span>
@@ -262,7 +340,7 @@ sup a:hover { text-decoration: underline; }
   </div>
   <div class="mfr-card">
     <div class="card-name">小米 Pilot Pro</div>
-    <div class="card-desc">2025款SU7标准版纯视觉，2026款已全系新增激光雷达</div>
+    <div class="card-desc">2025款SU7标准版历史纯视觉方案；新一代SU7已转向激光雷达融合感知</div>
     <div class="card-tags">
       <span class="card-tag tag-blue">纯视觉</span>
     </div>
@@ -278,15 +356,20 @@ sup a:hover { text-decoration: underline; }
 <h2>硬件配置</h2>
 <p class="section-desc">5家厂商纯视觉方案硬件配置。<br><span style="font-size:12px;color:var(--muted);">注：特斯拉数据为国际口径，非中国市场专属数据。</span></p>
 
+<div class="data-note">
+  <span class="data-note-label">配置口径</span><span>“当前/历史量产配置”与“规划配置”并列展示；未来产品数字已明确标注，不建议与当前量产芯片直接横向比较。</span>
+  <span class="data-note-divider">|</span>
+  <span class="data-note-label">解读口径</span><span>功能项数为本报告自定义清单，不等同于官方能力评分；“未披露/不适用”不应直接视为“不支持”。</span>
+</div>
 <div class="table-wrap">
 <table>
 <thead>
 <tr><th>配置项</th><th>特斯拉 FSD</th><th>小鹏 VLA</th><th>卓驭</th><th>比亚迪 天神C</th><th>小米 Pilot Pro</th></tr>
 </thead>
 <tbody>
-<tr><td>智驾芯片</td><td>AI5/HW5<br>双芯片冗余<sup><a href="#cite-40">[40]</a></sup><br><span style="font-size:10px;color:#888">计划2027年量产</span></td><td>自研图灵AI芯片<sup><a href="#cite-2">[2]</a></sup></td><td>高通SA8650P<br>SA8775P等<sup><a href="#cite-50">[50]</a></sup></td><td>Orin-N / J6M<sup><a href="#cite-28">[28]</a></sup></td><td>单颗 Orin<sup><a href="#cite-32">[32]</a></sup></td></tr>
-<tr><td>算力（TOPS）</td><td>约2500（AI5单芯）<br>整车或超4000<sup><a href="#cite-40">[40]</a></sup><br><span style="font-size:10px;color:#888">计划2027年量产</span></td><td>750（1芯）<br>2250（3芯）<br>3000（4芯）<sup><a href="#cite-2">[2]</a></sup></td><td>32-1500+<sup><a href="#cite-53">[53]</a></sup><br>（2000<sup><a href="#cite-51">[51]</a></sup>）</td><td>84 / 128<sup><a href="#cite-30">[30]</a></sup></td><td>84<sup><a href="#cite-32">[32]</a></sup></td></tr>
-<tr><td>摄像头总数</td><td>8（外部）+1（车内）<sup><a href="#cite-41">[41]</a></sup></td><td>11+1(DSM)<sup><a href="#cite-23">[23]</a></sup></td><td>7 或 10<sup><a href="#cite-34">[34]</a></sup></td><td>12<sup><a href="#cite-31">[31]</a></sup></td><td>11<sup><a href="#cite-32">[32]</a></sup></td></tr>
+<tr><td>智驾芯片</td><td>HW4（当前量产）<br>AI5/AI6为后续规划<sup><a href="#cite-40">[40]</a></sup></td><td>自研图灵AI芯片<sup><a href="#cite-2">[2]</a></sup></td><td>高通SA8650P<br>SA8775P等<sup><a href="#cite-50">[50]</a></sup></td><td>Orin-N / J6M<sup><a href="#cite-28">[28]</a></sup></td><td>单颗 Orin<sup><a href="#cite-32">[32]</a></sup></td></tr>
+<tr><td>算力（TOPS）</td><td>约2500（AI5，规划）<br>当前HW4口径另计<sup><a href="#cite-40">[40]</a></sup></td><td>750（1芯）<br>2250（3芯）<br>3000（4芯）<sup><a href="#cite-2">[2]</a></sup></td><td>32-1500+<sup><a href="#cite-53">[53]</a></sup><br>（2000<sup><a href="#cite-51">[51]</a></sup>）</td><td>84 / 128<sup><a href="#cite-30">[30]</a></sup></td><td>84<sup><a href="#cite-32">[32]</a></sup></td></tr>
+<tr><td>摄像头总数</td><td>8（外部）+1（车内）<sup><a href="#cite-41">[41]</a></sup></td><td>11+1（DMS）<sup><a href="#cite-23">[23]</a></sup></td><td>7 或 10<sup><a href="#cite-34">[34]</a></sup></td><td>12<sup><a href="#cite-31">[31]</a></sup></td><td>11<sup><a href="#cite-32">[32]</a></sup></td></tr>
 <tr><td>前向摄像头</td><td>3（2挡风玻璃+1前保险杠）<sup><a href="#cite-41">[41]</a></sup></td><td>7颗智驾高清<br>（拆分未披露）<sup><a href="#cite-23">[23]</a></sup></td><td>2（7V双目）<br>或 3（10V+长焦）<sup><a href="#cite-34">[34]</a></sup></td><td>3（三目：2广角+1长焦）<br>8MP<sup><a href="#cite-31">[31]</a></sup></td><td>2（8MP）<sup><a href="#cite-32">[32]</a></sup></td></tr>
 <tr><td>侧向摄像头</td><td>4（B柱2+翼子板2）<sup><a href="#cite-41">[41]</a></sup></td><td>—</td><td>0（7V）或 2（10V）<sup><a href="#cite-34">[34]</a></sup></td><td>4<sup><a href="#cite-31">[31]</a></sup></td><td>4（3MP）<sup><a href="#cite-32">[32]</a></sup></td></tr>
 <tr><td>后向摄像头</td><td>1<sup><a href="#cite-41">[41]</a></sup></td><td>—</td><td>1<sup><a href="#cite-34">[34]</a></sup></td><td>1<sup><a href="#cite-31">[31]</a></sup></td><td>1（3MP）<sup><a href="#cite-32">[32]</a></sup></td></tr>
@@ -295,13 +378,13 @@ sup a:hover { text-decoration: underline; }
 <tr><td>毫米波雷达</td><td>4D毫米波接口（HW4）<sup><a href="#cite-40">[40]</a></sup></td><td>2<sup><a href="#cite-2">[2]</a></sup></td><td>可选配（按方案档位灵活配置）<sup><a href="#cite-53">[53]</a></sup></td><td>5（5R）<sup><a href="#cite-30">[30]</a></sup></td><td>1（口径不一）<sup><a href="#cite-33">[33]</a></sup></td></tr>
 <tr><td>超声波雷达</td><td>—</td><td>12<sup><a href="#cite-2">[2]</a></sup></td><td>可选配（按方案档位灵活配置）<sup><a href="#cite-53">[53]</a></sup></td><td>12（12U）<sup><a href="#cite-30">[30]</a></sup></td><td>12<sup><a href="#cite-32">[32]</a></sup></td></tr>
 <tr><td>地图依赖</td><td>无高精地图<sup><a href="#cite-42">[42]</a></sup></td><td>无图<sup><a href="#cite-2">[2]</a></sup></td><td>无图<sup><a href="#cite-12">[12]</a></sup></td><td>无图<sup><a href="#cite-28">[28]</a></sup></td><td>无图<sup><a href="#cite-32">[32]</a></sup></td></tr>
-<tr><td>代表车型</td><td>Model 3/Y/S/X<br>Cybertruck<sup><a href="#cite-13">[13]</a></sup></td><td>MONA M03 Max<br>G9/G7 Ultra<br>GX Robotaxi<sup><a href="#cite-2">[2]</a></sup></td><td>红旗/大众/比亚迪<br>等50+车型<sup><a href="#cite-12">[12]</a></sup></td><td>秦L/宋L/海鸥/海豚<br>等21款<sup><a href="#cite-28">[28]</a></sup></td><td>2025款SU7标准版<br>（已退出新款）<sup><a href="#cite-32">[32]</a></sup></td></tr>
+<tr><td>代表车型</td><td>Model 3/Y/S/X<br>Cybertruck<sup><a href="#cite-13">[13]</a></sup></td><td>MONA M03 Max<br>G9/G7 Ultra<br>GX Robotaxi<sup><a href="#cite-2">[2]</a></sup></td><td>红旗/大众/比亚迪<br>等50+车型<sup><a href="#cite-12">[12]</a></sup></td><td>秦L/宋L/海鸥/海豚<br>等21款<sup><a href="#cite-28">[28]</a></sup></td><td>2025款SU7标准版<br><span class="flag">历史方案</span><sup><a href="#cite-32">[32]</a></sup></td></tr>
 </tbody>
 </table>
 </div>
 
 <figure class="chart-figure">
-<figcaption>各厂商最高算力对比（TOPS）</figcaption>
+<figcaption>公开算力口径对比（含规划值，仅供规模参考）</figcaption>
 <div id="chart-tops" style="width:100%;min-height:340px"></div>
 </figure>
 
@@ -354,7 +437,7 @@ sup a:hover { text-decoration: underline; }
 </thead>
 <tbody>
 <tr><td>高速 NOA/领航</td><td class="yes">&#10003;<sup><a href="#cite-13">[13]</a></sup></td><td class="yes">&#10003;<sup><a href="#cite-2">[2]</a></sup></td><td class="yes">&#10003;<br>无图全国<sup><a href="#cite-12">[12]</a></sup></td><td class="yes">&#10003;<br>HNOA高快领航<sup><a href="#cite-28">[28]</a></sup></td><td class="yes">&#10003;<sup><a href="#cite-32">[32]</a></sup></td></tr>
-<tr><td>城市 NOA/领航</td><td class="yes">&#10003;<sup><a href="#cite-15">[15]</a></sup></td><td class="yes">&#10003;<sup><a href="#cite-2">[2]</a></sup></td><td class="yes">&#10003;<br>城市领航<sup><a href="#cite-12">[12]</a></sup></td><td class="partial">&#9650;<br>仅记忆路线MNOA<sup><a href="#cite-28">[28]</a></sup></td><td class="no">&#10007;<br>仅Pro/Max版<sup><a href="#cite-33">[33]</a></sup></td></tr>
+<tr><td>城市 NOA/领航</td><td class="yes">&#10003;<sup><a href="#cite-15">[15]</a></sup></td><td class="yes">&#10003;<sup><a href="#cite-2">[2]</a></sup></td><td class="yes">&#10003;<br>城市领航<sup><a href="#cite-12">[12]</a></sup></td><td class="partial">&#9650;<br>仅记忆路线MNOA<sup><a href="#cite-28">[28]</a></sup></td><td class="partial">&#9650;<br>历史车型/版本口径差异<sup><a href="#cite-33">[33]</a></sup></td></tr>
 <tr><td>无图城市领航</td><td class="yes">&#10003;<sup><a href="#cite-15">[15]</a></sup></td><td class="yes">&#10003;<br>行业首批<sup><a href="#cite-45">[45]</a></sup></td><td class="yes">&#10003;<sup><a href="#cite-12">[12]</a></sup></td><td class="partial">&#9650;<br>记忆路线无图<sup><a href="#cite-28">[28]</a></sup></td><td class="na">&mdash;</td></tr>
 <tr><td>无保护左转</td><td class="yes">&#10003;<sup><a href="#cite-15">[15]</a></sup></td><td class="yes">&#10003;<sup><a href="#cite-44">[44]</a></sup></td><td class="na">&mdash;</td><td class="na">&mdash;</td><td class="na">&mdash;</td></tr>
 <tr><td>环岛通行</td><td class="na">&mdash;</td><td class="yes">&#10003;<sup><a href="#cite-11">[11]</a><a href="#cite-49">[49]</a></sup></td><td class="na">&mdash;</td><td class="na">&mdash;</td><td class="na">&mdash;</td></tr>
@@ -393,7 +476,7 @@ sup a:hover { text-decoration: underline; }
 
 <h3>D2D（车位到车位）</h3>
 <div class="callout" style="font-size:12.5px;padding:10px 16px;margin:0 0 14px;">
-<strong>注：</strong>特斯拉官方未使用"D2D/车位到车位"术语，其D2D功能项系基于FSD V14.1.4 Release Notes功能描述推断，非官方直接标注。卓驭科技官网将泊车、行车辅助、领航作为独立功能模块分别介绍，未将D2D列为独立功能模块；其D2D能力系基于10V高算力方案（SA8650P+10V，红旗天工系列）在2025年苏州高通峰会上的实车展示，7V中算力方案不支持D2D。
+<strong>证据等级说明：</strong>特斯拉官方未使用“D2D/车位到车位”术语，其D2D功能项系基于FSD V14.1.4功能描述推断，并非官方直接标注。卓驭科技官网将泊车、行车辅助、领航作为独立功能模块分别介绍，未将D2D列为独立功能模块；其D2D能力系基于10V高算力方案（SA8650P+10V，红旗天工系列）在2025年苏州高通峰会上的实车展示，7V中算力方案不支持D2D。
 </div>
 <div class="table-wrap">
 <table>
@@ -426,7 +509,7 @@ sup a:hover { text-decoration: underline; }
 <h2>性能指标</h2>
 
 <div class="callout">
-<strong>说明：</strong>特斯拉FSD安全报告口径与其他厂商差异较大（事故间里程 vs 接管率），且仅计入触发安全气囊的事故，Autopilot主要使用场景集中在高速公路，不便直接横向对比，故未列入下表；卓驭科技作为Tier1方案商，暂无统一对外披露的性能量化数据；小米Pilot Pro公开资料未披露接管率、成功率等实测性能数据。
+<strong>说明：</strong>特斯拉FSD安全报告口径与其他厂商差异较大（事故间里程 vs 接管率），且仅计入触发安全气囊的事故，特斯拉安全报告的统计对象、里程口径与其他厂商不同，不便直接横向对比，故未列入下表；卓驭科技作为Tier1方案商，暂无统一对外披露的性能量化数据；小米Pilot Pro公开资料未披露接管率、成功率等实测性能数据。
 </div>
 
 <div class="table-wrap">
@@ -458,7 +541,7 @@ sup a:hover { text-decoration: underline; }
 <!-- ===================== 数据来源 ===================== -->
 <section id="sources">
 <div class="container">
-<h2>数据来源</h2>
+<h2>数据来源与证据说明</h2>
 <footer style="border:none; padding:0;">
 <div class="sources">
 <ol>
@@ -652,7 +735,7 @@ var Fr={},Gr={};var Wr,Hr=function(){function t(t,e,n){var i=this;this._sleepAft
       grid: { left: '3%', right: '5%', bottom: '25%', top: '8%', containLabel: true },
       xAxis: {
         type: 'category',
-        data: ['小米 Pilot Pro\n(单Orin)', '比亚迪 天神C\n(J6M高配)', '特斯拉 AI5/HW5\n(计划2027量产)', '卓驭\n(旗舰方案)', '小鹏G9/G7\n(3芯图灵)', '小鹏GX Robotaxi\n(4芯图灵)'],
+        data: ['小米 Pilot Pro\n(单Orin)', '比亚迪 天神C\n(J6M高配)', '特斯拉 AI5\n(规划)', '卓驭\n(旗舰方案)', '小鹏G9/G7\n(3芯图灵)', '小鹏GX Robotaxi\n(4芯图灵)'],
         axisLabel: { color: muted, fontSize: 9.5, interval: 0, rotate: 0 },
         axisLine: { lineStyle: { color: rule } }
       },
